@@ -2,49 +2,81 @@
 
 // locale: lithuanian (lt-lt)
 // author: d4mn https://github.com/d4mn
+use Moment\Moment;
 
 return array(
-    "months"        => explode('_', 'Sausis_Vasaris_Kovas_Balandis_Gegužė_Birželis_Liepa_Rugpjūtis_Rugsėjis_Spalis_Lapkritis_Gruodis'),
-    "monthsShort"   => explode('_', 'Sau_Vas_Kov_Bal_Geg_Bir_Lie_Rugp_Rugs_Spa_Lap_Gru'),
-    "weekdays"      => explode('_', 'Pirmadienis_Antradienis_Trečiadienis_Ketvirtadienis_Penktadienis_Šeštadienis_Sekmadienis'),
+    "months" => explode('_', 'Sausis_Vasaris_Kovas_Balandis_Gegužė_Birželis_Liepa_Rugpjūtis_Rugsėjis_Spalis_Lapkritis_Gruodis'),
+    "monthsShort" => explode('_', 'Sau_Vas_Kov_Bal_Geg_Bir_Lie_Rugp_Rugs_Spa_Lap_Gru'),
+    "weekdays" => explode('_', 'Pirmadienis_Antradienis_Trečiadienis_Ketvirtadienis_Penktadienis_Šeštadienis_Sekmadienis'),
     "weekdaysShort" => explode('_', 'Pir_Ant_Tre_Ket_Pen_Šeš_Sek'),
-    "calendar"      => array(
-        "sameDay"  => '[Šiandien]',
-        "nextDay"  => '[Rytoj]',
-        "lastDay"  => '[Vakar]',
+    "calendar" => array(
+        "sameDay" => '[Šiandien]',
+        "nextDay" => '[Rytoj]',
+        "lastDay" => '[Vakar]',
         "lastWeek" => '[Praeitą] l',
         "sameElse" => 'l',
         "withTime" => '[at] H:i',
-        "default"  => 'd-m-Y',
+        "default" => 'd-m-Y',
     ),
-    "relativeTime"  => array(
+    "relativeTime" => array(
         "future" => 'už %s',
-        "past"   => 'prieš %s',
-        "s"      => 'prieš kelias sek.',
-        "m"      => 'minutę',
-        "mm"     => '%d minutes(-čių)',
-        "h"      => 'valandą',
-        "hh"     => '%d valandas(-ų)',
-        "d"      => 'dieną',
-        "dd"     => '%d dienas(-ų)',
-        "M"      => 'mėnesį',
-        "MM"     => '%d mėnesius(-ių)',
-        "y"      => 'metus',
-        "yy"     => '%d metus(-ų)',
+        "past" => 'prieš %s',
+        "s" => 'prieš kelias sek.',
+        "m" => 'minutę',
+        "mm" => function($count, $direction, Moment $m){
+            print_r($count . " - " . $direction);
+            return '%d minutes(-čių)';
+        },
+        "h" => 'valandą',
+        "hh" => function($count, $d, Moment $m){
+            if($count < 10 || $count > 21){
+                return '%d valandas';
+            }
+            else if($count == 21){
+                return '%d valandą';
+            }
+            else {
+                return '%d valandų';
+            }
+        },
+        "d" => 'dieną',
+        "dd" => function($count, $direction, Moment $m){
+            if($count < 10){
+                return '%d dienas';
+            }
+            else if($count == 21 || $count == 31){
+                return '%d dieną';
+            }
+            elseif(($count >= 10 && $count <= 20) || $count == 30){
+                return '%d dienų';
+            }
+            else {
+                return '%d dienas';
+            }
+        },
+        "M" => 'mėnesį',
+        "MM" => function($count, $d, Moment $m){
+            if($count < 10){
+                return '%d mėnesius';
+            }
+            else {
+                return '%d mėnesių';
+            }
+        },
+        "y" => 'metus',
+        "yy" => '%d metus(-ų)',
     ),
-    "ordinal"       => function ($number)
-    {
-        $n = $number % 100;
-        $ends = array('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th');
+    "ordinal" => function ($number){
+$n = $number % 100;
+$ends = array('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th');
 
-        if ($n >= 11 && $n <= 13)
-        {
-            return $number . '[th]';
-        }
+if($n >= 11 && $n <= 13){
+    return $number . '[th]';
+}
 
-        return $number . '[' . $ends[$number % 10] . ']';
-    },
-    "week"          => array(
+return $number . '[' . $ends[$number % 10] . ']';
+},
+    "week" => array(
         "dow" => 1, // Monday is the first day of the week.
         "doy" => 4  // The week that contains Jan 4th is the first week of the year.
     ),
