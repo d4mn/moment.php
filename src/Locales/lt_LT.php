@@ -24,45 +24,27 @@ return array(
         "s" => 'prieš kelias sek.',
         "m" => 'minutę',
         "mm" => function($count, $direction, Moment $m){
-            print_r($count . " - " . $direction);
             return '%d minutes(-čių)';
         },
         "h" => 'valandą',
-        "hh" => function($count, $d, Moment $m){
-            if($count < 10 || $count > 21){
-                return '%d valandas';
-            }
-            else if($count == 21){
-                return '%d valandą';
-            }
-            else {
-                return '%d valandų';
-            }
-        },
+        "hh" => '%d valandas(-ų)',
         "d" => 'dieną',
         "dd" => function($count, $direction, Moment $m){
             if($count < 10){
                 return '%d dienas';
             }
-            else if($count == 21 || $count == 31){
+            else if($count == 21){
                 return '%d dieną';
             }
-            elseif(($count >= 10 && $count <= 20) || $count == 30){
+            elseif($count >= 10 && $count <= 20){
                 return '%d dienų';
             }
             else {
-                return '%d dienas';
+                return '%d deinas';
             }
         },
         "M" => 'mėnesį',
-        "MM" => function($count, $d, Moment $m){
-            if($count < 10){
-                return '%d mėnesius';
-            }
-            else {
-                return '%d mėnesių';
-            }
-        },
+        "MM" => '%d mėnesius(-ių)',
         "y" => 'metus',
         "yy" => '%d metus(-ų)',
     ),
