@@ -24,7 +24,15 @@ return array(
         "s" => 'prieš kelias sek.',
         "m" => 'minutę',
         "mm" => function($count, $direction, Moment $m){
-            return '%d minutes(-čių)';
+            if($count % 10 == 1){
+                return '%d minutę';
+            }
+            elseif($count >= 10 && $count <= 20){
+                return '%d minučių';
+            }
+            else {
+                return '%d minutes';
+            }
         },
         "h" => 'valandą',
         "hh" => '%d valandas(-ų)',
