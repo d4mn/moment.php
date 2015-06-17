@@ -21,7 +21,7 @@ return array(
     "relativeTime" => array(
         "future" => 'už %s',
         "past" => 'prieš %s',
-        "s" => 'prieš kelias sek.',
+        "s" => 'kelias sek.',
         "m" => 'minutę',
         "mm" => function($count, $direction, Moment $m){
             if($count % 10 == 1){
@@ -35,7 +35,20 @@ return array(
             }
         },
         "h" => 'valandą',
-        "hh" => '%d valandas(-ų)',
+        "hh" => function($count, $direction, Moment $m){
+            if($count < 10){
+                return '%d valandas';
+            }
+            else if($count == 21){
+                return '%d valandą';
+            }
+            elseif($count >= 10 && $count <= 20){
+                return '%d valandų';
+            }
+            else {
+                return '%d valandas';
+            }
+        },
         "d" => 'dieną',
         "dd" => function($count, $direction, Moment $m){
             if($count < 10){
